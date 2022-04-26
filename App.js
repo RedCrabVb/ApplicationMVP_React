@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import {Navbar} from './src/Navbar'
 import {AddTodo} from './src/Addtodo'
 import {Todo} from './src/Todo'
@@ -23,9 +23,9 @@ export default function App() {
       <Navbar title='hello, todo app'></Navbar>
       <View style={styles.container}>
         <AddTodo onSubmit={addTodo}/>
-        <View>
+        <ScrollView>
           {todos.map(todo => <Todo todo={todo}></Todo>)}
-        </View>
+        </ScrollView>
       </View>
     </View>
   );
