@@ -6,11 +6,16 @@ import React from "react";
 export default function App() {
   return (
     <View style={styles.container}>
-      <Navbar></Navbar>
+      <Navbar title='hello, todo app'></Navbar>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {}
+  container: {
+
+  },
+  text: {
+
+  }
 });
