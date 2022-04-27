@@ -8,11 +8,12 @@ https://medium.com/nerd-for-tech/qr-code-scanner-app-in-react-native-3a4e574d052
 
 3. reset api...
 https://pusher.com/tutorials/consume-restful-api-react/
++
 
 4. android build
 https://docs.expo.dev/classic/building-standalone-apps/
-
-
++
+expo build:android -t apk
 Setap
 1. login in app
 2. show news, qrCode user
