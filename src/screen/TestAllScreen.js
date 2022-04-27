@@ -8,16 +8,6 @@ export const TestAllScreen = () => {
 
     const [tests, setTests] = useState([])
 
-    // const addTodo = (title) => {
-    //     console.log(title + " addTodo")
-    //     setTodos(prev => [
-    //         ...prev, {
-    //             id: Date.now().toString(),
-    //             title: title
-    //         }]
-    //     )
-    // }
-
     fetch(apiUrl)
         .then((response) => response.json())
         .then((data) => setTests(data));

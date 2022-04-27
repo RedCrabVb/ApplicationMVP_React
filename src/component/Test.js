@@ -1,11 +1,14 @@
 import React from 'react'
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native'
+import {useNavigation} from '@react-navigation/core'
 
 export const Test = ({test}) => {
+    const navigation = useNavigation()
+
     return (
         <TouchableOpacity
             activeOpacity={0.5}
-            onPress={() => console.log("Pressed", test.idTest)}>
+            onPress={() => {console.log("idTest" + test.idTest); navigation.navigate("currenttest", {idTest: test.idTest})}}>
             <View style={styles.test}>
                 <Text style={styles.textTest}>{test.test}</Text>
                 <Text style={styles.textTest}>{test.description}</Text>
