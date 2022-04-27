@@ -1,39 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import {Navbar} from './src/Navbar'
-import {AddTodo} from './src/Addtodo'
-import {Todo} from './src/Todo'
+import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import React, {useState} from "react";
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack'
+import {HomeScreen} from "./src/screen/HomeScreen";
+import {TodoScreen} from "./src/screen/TodoScreen";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [todos, setTodos] = useState([])
 
-  const  addTodo = (title) => {
-    console.log(title + " addTodo")
-    setTodos(prev => [
-          ...prev, {
-          id: Date.now().toString(),
-          title: title
-        }]
-    )
-  }
-
-  return (
-    <View>
-      <Navbar title='hello, todo app'></Navbar>
-      <View style={styles.container}>
-        <AddTodo onSubmit={addTodo}/>
-        <ScrollView>
-          {todos.map(todo => <Todo todo={todo}></Todo>)}
-        </ScrollView>
-      </View>
-    </View>
-  );
+    return (
+        <NavigationContainer>
+            <Stack.Navigator
+                initialRouteName='home'
+                screenOptions={{
+                    headerShown: true
+                }}
+            >
+                <Stack.Screen name="home"
+                              component={HomeScreen}></Stack.Screen>
+                <Stack.Screen name="todo"
+                              component={TodoScreen} options={{headerShown: false}}></Stack.Screen>
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 30,
-    paddingVertical: 20
-  }
+    container: {
+        paddingHorizontal: 30,
+        paddingVertical: 20
+    }
 });

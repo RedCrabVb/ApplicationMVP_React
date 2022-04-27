@@ -5,6 +5,8 @@ export const Navbar = (props) => {
     return (
         <View style={styles.navbar}>
             <Text style={styles.text}>{props.title}</Text>
+            <a href="/">Home</a>
+            <a href="/todo">todo</a>
         </View>
     )
 }
