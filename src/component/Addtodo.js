@@ -1,8 +1,11 @@
 import React, {useState} from 'react'
-import {View, StyleSheet, TextInput, Button, Alert} from 'react-native'
+import {View, StyleSheet, TextInput, Button, Alert, Text, AsyncStorage} from 'react-native'
 
 export const AddTodo = ({ onSubmit }) => {
+    const LOGIN = "LOGIN";
+
     const [value, setValue] = useState('')
+    const [login, setLogin] = useState('')
 
     const pressHandler = () => {
         if (value.trim()) {
@@ -13,13 +16,20 @@ export const AddTodo = ({ onSubmit }) => {
         }
     }
 
+    AsyncStorage.getItem(LOGIN).then(login => {
+        setLogin(login)
+    })
+
     return (
         <View style={styles.block}>
+            <Text style={}>{login}</Text>
+
             <TextInput style={styles.input}
                 onChangeText={text => setValue(text)}
                 value={value}
                 placeholder="Введите название дела"/>
             <Button title='Добавить' onPress={pressHandler}/>
+
         </View>
     )
 }

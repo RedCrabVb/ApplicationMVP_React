@@ -1,6 +1,7 @@
 Steps:
 1. asyncStorage
 https://stackoverflow.com/questions/47850405/how-to-set-cookie-in-react-native-with-expo
++
 
 2. qrcode
 https://medium.com/nerd-for-tech/qr-code-scanner-app-in-react-native-3a4e574d052d
