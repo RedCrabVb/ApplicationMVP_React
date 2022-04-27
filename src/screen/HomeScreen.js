@@ -23,6 +23,7 @@ export const HomeScreen = () => {
         <View>
             <Text>Home</Text>
             <Button onPress={() => navigation.navigate("todo")} title="todo"/>
+            <Button onPress={() => navigation.navigate("testall")} title="testall"/>
 
             <TextInput
                 onChangeText={text => setLogin(text)}

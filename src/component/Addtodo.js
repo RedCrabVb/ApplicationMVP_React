@@ -22,7 +22,7 @@ export const AddTodo = ({ onSubmit }) => {
 
     return (
         <View style={styles.block}>
-            <Text style={}>{login}</Text>
+            <Text style={styles.block}>{login}</Text>
 
             <TextInput style={styles.input}
                 onChangeText={text => setValue(text)}
