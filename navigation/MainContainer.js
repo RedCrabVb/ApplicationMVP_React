@@ -10,7 +10,8 @@ import HomeScreen from './screens/HomeScreen';
 import GameScreen from './screens/GameScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import {ScanQrScreen} from "../src/screen/ScanQrScreen";
-import {CurrentTestScreen} from "./screens/CurrentTestScreen";
+import {CurrentTestScreen} from "./screens/stack/CurrentTestScreen";
+import ResultTestScreen from "./screens/stack/ResultTestScreen";
 
 //Screen names
 const homeName = "Главная";
@@ -63,6 +64,7 @@ function MainContainer() {
         <NavigationContainer>
             <Stack.Navigator initialRouteName="Tabs">
                 <Stack.Screen name="Test" component={CurrentTestScreen}/>
+                <Stack.Screen name="Result" component={ResultTestScreen}/>
                 <Stack.Screen name="Tabs" component={MyBottomMenu} options={{headerShown: false}} />
             </Stack.Navigator>
         </NavigationContainer>

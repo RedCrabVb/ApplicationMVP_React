@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/core'
 import React, {useState, useEffect} from "react";
-import {testCurrent} from "../../src/utils/Api";
+import {testCurrent} from "../../../src/utils/Api";
 import {BarCodeScanner} from "expo-barcode-scanner";
 
 
@@ -10,6 +10,7 @@ export const CurrentTestScreen = (params) => {
     const apiUrl = testCurrent + params.route.params.idTest
 
     const [test, setTest] = useState({})
+    const [answerList, setAnswerList] = useState([])
     const [isLoading, setLoading] = useState(true)
 
     const [countWrongAnswer, setCountWrongAnswer] = useState(0)
@@ -29,7 +30,11 @@ export const CurrentTestScreen = (params) => {
 
     const pressHandler = () => {
         // Alert.alert("Ответили")
-        incrementQuestion()
+        if (currentQuestion === 2) {
+            params.navigation.navigate("Result", {countWrongAnswer: countWrongAnswer, test: test})
+        } else {
+            incrementQuestion()
+        }
     }
 
 
@@ -42,6 +47,7 @@ export const CurrentTestScreen = (params) => {
                 .then((response) => response.json())
                 .then((data) => {
                     console.log(data);
+                    setAnswerList(data.answerList)
                     setTest(data)
                 })
                 .catch((error) => alert(error))
@@ -93,10 +99,10 @@ export const CurrentTestScreen = (params) => {
                     </ActivityIndicator>
                 ) : (
                     <View style={styles.block}>
-                        <Text>{currentQuestion} / {test.answerList.length}</Text>
-                        <Text>Вопрос: {test.answerList[currentQuestion].question}</Text>
-                        <Text>Комментарий: {test.answerList[currentQuestion].comment}</Text>
-                        <Text>Ответ: {test.answerList[currentQuestion].response}</Text>
+                        <Text>{currentQuestion} / {answerList.length}</Text>
+                        <Text>Вопрос: {answerList[currentQuestion].question}</Text>
+                        <Text>Комментарий: {answerList[currentQuestion].comment}</Text>
+                        <Text>Ответ: {answerList[currentQuestion].response}</Text>
                     </View>
                 )
             }
