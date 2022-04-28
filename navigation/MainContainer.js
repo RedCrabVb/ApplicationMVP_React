@@ -8,8 +8,10 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack'
 // Screens
 import HomeScreen from './screens/HomeScreen';
 import GameScreen from './screens/GameScreen';
+import LogIn from './screens/stack/LogIn';
+import MailReset from './screens/stack/MailReset';
+import Registration from './screens/stack/Registration';
 import SettingsScreen from './screens/SettingsScreen';
-import {ScanQrScreen} from "../src/screen/ScanQrScreen";
 import {CurrentTestScreen} from "./screens/stack/CurrentTestScreen";
 import ResultTestScreen from "./screens/stack/ResultTestScreen";
 
@@ -65,6 +67,9 @@ function MainContainer() {
             <Stack.Navigator initialRouteName="Tabs">
                 <Stack.Screen name="Test" component={CurrentTestScreen}/>
                 <Stack.Screen name="Result" component={ResultTestScreen}/>
+                <Tab.Screen name="LogIn" component={LogIn}/>
+                <Tab.Screen name="Registration" component={Registration}/>
+                <Tab.Screen name="MailReset" component={MailReset}/>
                 <Stack.Screen name="Tabs" component={MyBottomMenu} options={{headerShown: false}} />
             </Stack.Navigator>
         </NavigationContainer>

@@ -1,6 +1,9 @@
 import * as React from 'react';
-import {View, Text, ScrollView, Button} from 'react-native';
+import {View, Text, ScrollView, Button, StyleSheet} from 'react-native';
 import homeName from "../../MainContainer"
+import {WebView} from "react-native-webview";
+
+
 
 export default function ResultTestScreen(props) {
     console.log(props)
@@ -14,3 +17,22 @@ export default function ResultTestScreen(props) {
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    containerHome: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+    webPag: {
+        marginTop: 50,
+        flex: 1,
+        width: '100%',
+        height: '100%',
+    },
+    input: {
+        width: '70%',
+        borderStyle: 'solid',
+        padding: 10,
+        borderBottomWidth: 2,
+        borderBottomColor: '#3949ab'
+    }
+});
+
+

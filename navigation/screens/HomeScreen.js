@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { View, Text, AsyncStorage, ActivityIndicator} from 'react-native';
+import { StyleSheet, View, Text, AsyncStorage, ActivityIndicator} from 'react-native';
 import {USER} from "../../src/utils/Storage"
 import {useEffect, useState} from "react";
 import {registration, news as newsApi} from "../../src/utils/Api";
+import { WebView } from 'react-native-webview';
 
 export default function HomeScreen({ navigation }) {
     const [authorized, isAuthorized] = useState(false);
@@ -10,10 +11,7 @@ export default function HomeScreen({ navigation }) {
     const [newsLink, setNewsLink] = useState("test");
 
 
-
-
     useEffect(() => {
-        console.log(user)
         if (!authorized) {
             fetch(newsApi)
                 .then(response => response.json())
@@ -45,19 +43,33 @@ export default function HomeScreen({ navigation }) {
 
 
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text
-                onPress={() => alert('This is the "Home" screen.')}
-                style={{ fontSize: 26, fontWeight: 'bold' }}>Home Screen</Text>
-            <Text style={{ fontSize: 26, fontWeight: 'bold' }}>News: {newsLink} {5 + 5}</Text>
+        <View>
             {
                 authorized && user != null ? (
-                    <Text style={{ fontSize: 26, fontWeight: 'bold' }}>QrCode: {user.qrCode}</Text>
+                    <View>
+
+                        <Text style={{ fontSize: 26, fontWeight: 'bold' }}>QrCode: {user.qrCode}</Text>
+                    </View>
                 ) : (
                     <ActivityIndicator></ActivityIndicator>
                 )
             }
+            <View>
+                {/*<WebView style={styles.wegPage} source={{ uri: "https://github.com/"}} onLoad={console.log("load")}  /> //bag*/}
+            </View>
+
             <Text>authorized: {authorized.toString()}</Text>
         </View>
     );
 }
+
+
+const styles = StyleSheet.create({
+    containerHome: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+    webPag: {
+        marginTop: 50,
+        flex: 1,
+        width: '100%',
+        height: '100%',
+    }
+});
