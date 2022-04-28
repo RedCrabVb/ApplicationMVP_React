@@ -4,8 +4,9 @@ import {View, Text, StyleSheet} from 'react-native'
 export const Container = ({children}) => {
     return (
         <View style={styles.container}>
-            <Text text="hello"></Text>
             {children}
+            <Text text="hello"></Text>
+            <Text>hello</Text>
         </View>
     )
 }

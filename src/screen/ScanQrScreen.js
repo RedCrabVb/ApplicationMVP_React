@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import {Container} from "../component/Container";
 
 export const ScanQrScreen = () => {
     const [hasPermission, setHasPermission] = useState(null);
@@ -43,7 +44,7 @@ export const ScanQrScreen = () => {
 
     // Return the View
     return (
-        <View style={styles.container}>
+        <Container style={styles.container}>
             <View style={styles.barcodebox}>
                 <BarCodeScanner
                     onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
@@ -52,7 +53,7 @@ export const ScanQrScreen = () => {
             <Text style={styles.maintext}>{text}</Text>
 
             {scanned && <Button title={'Scan again?'} onPress={() => setScanned(false)} color='tomato' />}
-        </View>
+        </Container>
     );
 }
 
