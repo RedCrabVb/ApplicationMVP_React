@@ -1,15 +1,8 @@
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import React, {useState} from "react";
-import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
-import {HomeScreen} from "./src/screen/HomeScreen";
-import {TodoScreen} from "./src/screen/TodoScreen";
-import {TestAllScreen} from "./src/screen/TestAllScreen";
-import {CurrentTestScreen} from "./src/screen/CurrentTestScreen";
-import {ScanQrScreen} from "./src/screen/ScanQrScreen";
 import MainContainer from "./navigation/MainContainer";
 
-const Stack = createNativeStackNavigator();
 
 export default function App() {
 

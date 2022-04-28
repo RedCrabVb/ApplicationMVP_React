@@ -1,10 +1,10 @@
 import {StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/core'
 import React, {useState, useEffect} from "react";
-import {Test} from "../component/Test";
+import {testCurrent} from "../../src/utils/Api";
 
 export const CurrentTestScreen = (params) => {
-    const apiUrl = "http://servermvp.ru:49207/api/test?id=" + params.route.params.idTest
+    const apiUrl = testCurrent + params.route.params.idTest
 
     const [test, setTest] = useState({})
     const [isLoading, setLoading] = useState(true)
@@ -42,7 +42,7 @@ export const CurrentTestScreen = (params) => {
     return (
         <View>
             <Text>TestAll</Text>
-            <Button onPress={() => navigation.navigate("home")} title="home"></Button>
+            {/*<Button onPress={() => navigation.navigate("currenttest")} title="home"></Button>*/}
 
             {
                 isLoading ? (
