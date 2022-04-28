@@ -6,6 +6,7 @@ import {HomeScreen} from "./src/screen/HomeScreen";
 import {TodoScreen} from "./src/screen/TodoScreen";
 import {TestAllScreen} from "./src/screen/TestAllScreen";
 import {CurrentTestScreen} from "./src/screen/CurrentTestScreen";
+import {ScanQrScreen} from "./src/screen/ScanQrScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ export default function App() {
                 <Stack.Screen name="todo" component={TodoScreen} options={{headerShown: false}}></Stack.Screen>
                 <Stack.Screen name="testall" component={TestAllScreen} options={{headerShown: false}}></Stack.Screen>
                 <Stack.Screen name="currenttest" component={CurrentTestScreen} options={{headerShown: false}}></Stack.Screen>
+                <Stack.Screen name="scan" component={ScanQrScreen} options={{headerShown: false}}></Stack.Screen>
             </Stack.Navigator>
         </NavigationContainer>
     );
