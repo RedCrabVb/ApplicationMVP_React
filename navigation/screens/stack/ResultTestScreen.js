@@ -1,8 +1,5 @@
 import * as React from 'react';
 import {View, Text, ScrollView, Button, StyleSheet} from 'react-native';
-import homeName from "../../MainContainer"
-import {WebView} from "react-native-webview";
-
 
 
 export default function ResultTestScreen(props) {

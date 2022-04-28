@@ -30,7 +30,7 @@ export const CurrentTestScreen = (params) => {
 
     const pressHandler = () => {
         // Alert.alert("Ответили")
-        if (currentQuestion === 2) {
+        if (currentQuestion === answerList.length - 1) {
             params.navigation.navigate("Result", {countWrongAnswer: countWrongAnswer, test: test})
         } else {
             incrementQuestion()
@@ -52,7 +52,6 @@ export const CurrentTestScreen = (params) => {
                 })
                 .catch((error) => alert(error))
                 .finally(() => setLoading(false));
-            console.log("test" + test)
         }
     })
 

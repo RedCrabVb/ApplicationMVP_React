@@ -3,7 +3,9 @@ import { StyleSheet, View, Text, AsyncStorage, ActivityIndicator} from 'react-na
 import {USER} from "../../src/utils/Storage"
 import {useEffect, useState} from "react";
 import {registration, news as newsApi} from "../../src/utils/Api";
-import { WebView } from 'react-native-webview';
+import QRCode from 'react-qr-code';
+import {} from 'react-native-svg';
+
 
 export default function HomeScreen({ navigation }) {
     const [authorized, isAuthorized] = useState(false);
@@ -48,7 +50,8 @@ export default function HomeScreen({ navigation }) {
                 authorized && user != null ? (
                     <View>
 
-                        <Text style={{ fontSize: 26, fontWeight: 'bold' }}>QrCode: {user.qrCode}</Text>
+                        <QRCode value={user.qrCode} />
+
                     </View>
                 ) : (
                     <ActivityIndicator></ActivityIndicator>
@@ -57,8 +60,6 @@ export default function HomeScreen({ navigation }) {
             <View>
                 {/*<WebView style={styles.wegPage} source={{ uri: "https://github.com/"}} onLoad={console.log("load")}  /> //bag*/}
             </View>
-
-            <Text>authorized: {authorized.toString()}</Text>
         </View>
     );
 }
