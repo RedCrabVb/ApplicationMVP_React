@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {View, Text, ScrollView} from 'react-native';
-import homeName from "../MainContainer";
 import {testAll} from "../../src/utils/Api";
 import {Test} from "../../src/component/Test";
 import {useState} from "react";

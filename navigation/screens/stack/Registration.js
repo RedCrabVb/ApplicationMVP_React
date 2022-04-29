@@ -10,7 +10,6 @@ export default function Registration(props) {
     const [password, setPassword] = useState("")
     const [password2, setPassword2] = useState("")
     const [mail, setMail] = useState("")
-
     const [login, setLogin] = useState("")
 
     return (

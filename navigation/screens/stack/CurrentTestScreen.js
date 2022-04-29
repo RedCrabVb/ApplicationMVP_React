@@ -1,5 +1,4 @@
 import {StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator, ScrollView} from 'react-native';
-import {useNavigation} from '@react-navigation/core'
 import React, {useState, useEffect} from "react";
 import {testCurrent} from "../../../src/utils/Api";
 import {BarCodeScanner} from "expo-barcode-scanner";
@@ -8,7 +7,7 @@ import {CustomButton} from "../../../src/component/CutomButton";
 
 
 export const CurrentTestScreen = (params) => {
-    const apiUrl = testCurrent + params.route.params.idTest
+    const apiTest = testCurrent + params.route.params.idTest
 
     const [test, setTest] = useState({})
     const [answerList, setAnswerList] = useState([])
@@ -30,7 +29,6 @@ export const CurrentTestScreen = (params) => {
     }
 
     const pressHandler = () => {
-        // Alert.alert("Ответили")
         if (currentQuestion === answerList.length - 1) {
             params.navigation.navigate("Result", {countWrongAnswer: countWrongAnswer, test: test})
         } else {
@@ -40,14 +38,12 @@ export const CurrentTestScreen = (params) => {
 
 
 
-    const navigation = useNavigation()
-
     useEffect(() => {
         if (isLoading) {
-            fetch(apiUrl)
+            fetch(apiTest)
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data);
+                    console.log("load test: " + data.idTest);
                     setAnswerList(data.answerList)
                     setTest(data)
                 })
