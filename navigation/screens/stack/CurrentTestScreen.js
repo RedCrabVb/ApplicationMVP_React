@@ -4,6 +4,7 @@ import {testCurrent} from "../../../src/utils/Api"
 import {BarCodeScanner} from "expo-barcode-scanner"
 import {CustomButton} from "../../../src/component/CutomButton"
 import {resultTestName} from "../../../src/utils/ScreenNames";
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
 export const CurrentTestScreen = (params) => {
     const apiTest = testCurrent + params.route.params.idTest
@@ -18,17 +19,25 @@ export const CurrentTestScreen = (params) => {
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [startTime, setStartTime] = useState(0)
 
+    const [timer, setTimer] = useState({})
+    const [statusBar, setStatusBar] = useState(0)
+
     const [hasPermission, setHasPermission] = useState(null);
     const [text, setText] = useState('Not yet scanned')
 
     const incrementQuestion = () => {
         setCurrentQuestion(currentQuestion + 1)
-        setError(false)
     }
 
     const incrementCountWrongAnswer = () => {
         setCountWrongAnswer(countWrongAnswer + 1)
         setError(true)
+        setTimer(setInterval(() => setStatusBar(statusBar + 60), 1000 * Math.min(countWrongAnswer, 5)))
+        setTimeout(() => {
+            setStatusBar(100)
+            clearInterval(timer)
+            setError(false)
+        }, 1000 * Math.min(countWrongAnswer, 5))
     }
 
     const pressHandler = () => {
@@ -119,24 +128,32 @@ export const CurrentTestScreen = (params) => {
                 )
             }
 
+            {
+                !error ? (
+                    <View></View>
+                ) : (<View style={{        alignItems: 'center',
+                    justifyContent: 'center'}} >
+                    <AnimatedCircularProgress
+                        size={60}
+                        width={15}
+                        fill={statusBar}
+                        tintColor='#00e0ff'
+                        onAnimationComplete={() => {
+                            setStatusBar(0)
+                        }}
+                        backgroundColor='#c40a0a' />
+                    <Text style={{color: '#c40a0a'}}>Ошибка</Text>
+                </View>)
+            }
+
 
             <View style={styles.barcodebox}>
                 <BarCodeScanner
                     onBarCodeScanned={handleBarCodeScanned}
                     style={{height: 400, width: 400}}/>
             </View>
-            {
-                !error ? (
-                    <View>
 
-
-
-                    </View>
-                ) : (<Text>Ошибка</Text>)
-            }
-
-
-            <CustomButton onPress={pressHandler} text="Отправить"></CustomButton>
+            <CustomButton disabled={error} onPress={pressHandler} text="Отправить"></CustomButton>
 
         </View>
     );
@@ -145,6 +162,7 @@ export const CurrentTestScreen = (params) => {
 const styles = StyleSheet.create({
     block: {
         paddingHorizontal: 30,
+        marginVertical: 20
     },
     container: {
         flex: 1,
