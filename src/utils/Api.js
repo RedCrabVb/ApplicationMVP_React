@@ -1,4 +1,4 @@
-const server = "http://192.168.1.100:8080/api/"
+const server = "http://servermvp.ru:49207/api/"
 
 export const testAll = `${server}testAll`
 export const testCurrent =  `${server}test?id=`
