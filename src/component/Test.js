@@ -1,13 +1,13 @@
 import React from 'react'
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native'
-import {useNavigation} from '@react-navigation/core'
+import {currentTestName} from "../utils/ScreenNames";
 
 export const Test = ({test, navigation}) => {
 
     return (
         <TouchableOpacity
             activeOpacity={0.5}
-            onPress={() => {console.log("idTest" + test.idTest); navigation.navigate("Test", {idTest: test.idTest})}}>
+            onPress={() => {console.log("idTest" + test.idTest); navigation.navigate(currentTestName, {idTest: test.idTest})}}>
             <View style={styles.test}>
                 <Text style={styles.textTest}>{test.test}</Text>
                 <Text style={styles.textTest}>{test.description}</Text>

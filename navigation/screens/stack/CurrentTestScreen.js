@@ -1,16 +1,17 @@
-import {StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator, ScrollView} from 'react-native';
-import React, {useState, useEffect} from "react";
-import {testCurrent} from "../../../src/utils/Api";
-import {BarCodeScanner} from "expo-barcode-scanner";
-import {CustomButton} from "../../../src/component/CutomButton";
-
-
+import {StyleSheet, Text, View, Button, ActivityIndicator} from 'react-native'
+import React, {useState, useEffect} from "react"
+import {testCurrent} from "../../../src/utils/Api"
+import {BarCodeScanner} from "expo-barcode-scanner"
+import {CustomButton} from "../../../src/component/CutomButton"
+import {resultTestName} from "../../../src/utils/ScreenNames";
 
 export const CurrentTestScreen = (params) => {
     const apiTest = testCurrent + params.route.params.idTest
 
     const [test, setTest] = useState({})
     const [answerList, setAnswerList] = useState([])
+    const [responseCurrent, setResponseCurrent] = useState("")
+    const [error, setError] = useState(false)
     const [isLoading, setLoading] = useState(true)
 
     const [countWrongAnswer, setCountWrongAnswer] = useState(0)
@@ -18,30 +19,37 @@ export const CurrentTestScreen = (params) => {
     const [startTime, setStartTime] = useState(0)
 
     const [hasPermission, setHasPermission] = useState(null);
-    const [scanned, setScanned] = useState(false);
     const [text, setText] = useState('Not yet scanned')
 
     const incrementQuestion = () => {
         setCurrentQuestion(currentQuestion + 1)
+        setError(false)
     }
 
     const incrementCountWrongAnswer = () => {
         setCountWrongAnswer(countWrongAnswer + 1)
+        setError(true)
     }
 
     const pressHandler = () => {
-        if (currentQuestion === answerList.length - 1) {
-            params.navigation.navigate("Result", {countWrongAnswer: countWrongAnswer, test: test, startTime: startTime, endTime: Date.now()});
-        } else {
-            incrementQuestion();
-            if (text == answerList[currentQuestion].hash) {
-                incrementQuestion();
+
+
+        if (text == answerList[currentQuestion].hash) {
+            setText("")
+            if (currentQuestion + 1 == answerList.length) {
+                params.navigation.navigate(resultTestName, {
+                    countWrongAnswer: countWrongAnswer,
+                    test: test,
+                    startTime: startTime,
+                    endTime: Date.now()
+                });
             } else {
-                incrementCountWrongAnswer();
+                incrementQuestion();
             }
+        } else {
+            incrementCountWrongAnswer();
         }
     }
-
 
 
     useEffect(() => {
@@ -52,6 +60,7 @@ export const CurrentTestScreen = (params) => {
                     console.log("load test: " + data.idTest);
                     setStartTime(Date.now());
                     setAnswerList(data.answerList);
+
                     setTest(data);
                 })
                 .catch((error) => alert(error))
@@ -61,24 +70,21 @@ export const CurrentTestScreen = (params) => {
 
     const askForCameraPermission = () => {
         (async () => {
-            const { status } = await BarCodeScanner.requestPermissionsAsync();
+            const {status} = await BarCodeScanner.requestPermissionsAsync();
             setHasPermission(status === 'granted');
         })()
     }
 
-    // Request Camera Permission
     useEffect(() => {
         askForCameraPermission();
     }, []);
 
-    // What happens when we scan the bar code
-    const handleBarCodeScanned = ({ type, data }) => {
-        setScanned(true);
-        setText(data)
-        console.log('Type: ' + type + '\nData: ' + data)
+    const handleBarCodeScanned = (x) => {
+        setText(x.data)
+        setResponseCurrent(answerList.find(a => a.hash == x.data).response)
+        console.log('Type: ' + x.type + '\nData: ' + x.data)
     };
 
-    // Check permissions and return the screens
     if (hasPermission === null) {
         return (
             <View style={styles.container}>
@@ -88,8 +94,8 @@ export const CurrentTestScreen = (params) => {
     if (hasPermission === false) {
         return (
             <View style={styles.container}>
-                <Text style={{ margin: 10 }}>No access to camera</Text>
-                <Button title={'Allow Camera'} onPress={() => askForCameraPermission()} />
+                <Text style={{margin: 10}}>No access to camera</Text>
+                <Button title={'Allow Camera'} onPress={() => askForCameraPermission()}/>
             </View>)
     }
 
@@ -102,25 +108,38 @@ export const CurrentTestScreen = (params) => {
                     </ActivityIndicator>
                 ) : (
                     <View style={styles.block}>
-                        <Text>{currentQuestion} / {answerList.length}</Text>
-                        <Text>Вопрос: {answerList[currentQuestion].question}</Text>
-                        <Text>Комментарий: {answerList[currentQuestion].comment}</Text>
-                        <Text>Ответ: {answerList[currentQuestion].response}</Text>
+                        <Text style={styles.maintext}>{currentQuestion} / {answerList.length}</Text>
+                        <Text style={styles.maintext}>Вопрос: {answerList[currentQuestion].question}</Text>
+                        <Text style={styles.maintext}>Ответ: {responseCurrent}</Text>
+                        <Text style={styles.maintext}>Комментарий: {answerList[currentQuestion].comment}</Text>
                     </View>
                 )
             }
 
-            <View >
 
-                <View style={styles.barcodebox}>
-                    <BarCodeScanner
-                        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-                        style={{ height: 400, width: 400 }} />
-                </View>
-                <Text style={styles.maintext}>{text}</Text>
-
-                {scanned && <Button title={'Scan again?'} onPress={() => setScanned(false)} color='tomato' />}
+            <View style={styles.barcodebox}>
+                <BarCodeScanner
+                    onBarCodeScanned={handleBarCodeScanned}
+                    style={{height: 400, width: 400}}/>
             </View>
+            {
+                !error ? (
+                    <View>
+                        {/*<CircularProgress*/}
+                        {/*    radius={100}*/}
+                        {/*    value={value}*/}
+                        {/*    textColor='#222'*/}
+                        {/*    fontSize={20}*/}
+                        {/*    valueSuffix={'%'}*/}
+                        {/*    activeStrokeColor={'tomato'}*/}
+                        {/*    inActiveStrokeOpacity={0.2}*/}
+                        {/*    duration={4000}*/}
+                        {/*/>*/}
+
+                    </View>
+                ) : (<Text>Ошибка</Text>)
+            }
+            <Text>{text}</Text>
 
             <CustomButton onPress={pressHandler} text="Отправить"></CustomButton>
 
@@ -129,8 +148,8 @@ export const CurrentTestScreen = (params) => {
 }
 
 const styles = StyleSheet.create({
-    block : {
-     paddingHorizontal: 50,
+    block: {
+        paddingHorizontal: 50,
     },
     container: {
         flex: 1,
@@ -139,8 +158,8 @@ const styles = StyleSheet.create({
         padding: 30
     },
     maintext: {
-        fontSize: 16,
-        margin: 20,
+        fontSize: 14,
+        margin: 10,
     },
     barcodebox: {
         alignItems: 'center',

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { StyleSheet, View, Text, AsyncStorage, ActivityIndicator} from 'react-native';
+import { StyleSheet, View, ActivityIndicator} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {USER} from "../../src/utils/Storage"
 import {useEffect, useState} from "react";
 import {registration, news as newsApi} from "../../src/utils/Api";
@@ -8,20 +9,22 @@ import {} from 'react-native-svg';
 
 
 export default function HomeScreen({ navigation }) {
-    const [authorized, isAuthorized] = useState(false);
-    const [user, setUser] = useState({});
-    const [newsLink, setNewsLink] = useState("test");
+    const [authorized, isAuthorized] = useState(false)
+    const [user, setUser] = useState({})
+    const [newsLink, setNewsLink] = useState("test")
 
 
-    React.useEffect(() => {
+    useEffect(() => {
             const unsubscribe = navigation.addListener('focus', () => {
                 if (!authorized) {
                     fetch(newsApi)
                         .then(response => response.json())
-                        .then(data => setNewsLink(data.News));
+                        .then(data => setNewsLink(data.News))
 
                     AsyncStorage.getItem(USER).then(data => {
-                        if (data == null || !('token' in user)) {
+                        console.log("getItem user: " + data)
+                        if (data == null || !('token' in JSON.parse(data))) {
+                            console.log("registration first")
                             const requestOptions = {
                                 method: 'POST',
                                 headers: {'Content-Type': 'application/json'}
@@ -29,21 +32,22 @@ export default function HomeScreen({ navigation }) {
                             fetch(registration, requestOptions)
                                 .then(response => response.json())
                                 .then(data => {
-                                    console.log("fetch: " + data);
-                                    AsyncStorage.setItem(USER, JSON.stringify(data));
-                                    return setUser(data);
+                                    console.log("fetch: " + data)
+                                    AsyncStorage.setItem(USER, JSON.stringify(data))
+                                    return setUser(data)
                                 })
-                                .then(f => isAuthorized(true));
+                                .then(() => isAuthorized(true))
                         } else {
-                            console.log("get store : " + data);
-                            setUser(JSON.parse(data));
-                            isAuthorized(true);
+                            console.log("get store : " + data)
+                            setUser(JSON.parse(data))
+                            isAuthorized(true)
                         }
                     });
                 } else {
                     AsyncStorage.getItem(USER).then(data => {
                         if (data != null || ('token' in data)) {
-                            setUser(JSON.parse(data));
+                            isAuthorized(true)
+                            setUser(JSON.parse(data))
                         }
                     });
                 }
@@ -62,14 +66,14 @@ export default function HomeScreen({ navigation }) {
 
                     </View>
                 ) : (
-                    <ActivityIndicator></ActivityIndicator>
+                    <ActivityIndicator/>
                 )
             }
             <View>
                 {/*<WebView style={styles.wegPage} source={{ uri: "https://github.com/"}} onLoad={console.log("load")}  /> //bag*/}
             </View>
         </View>
-    );
+    )
 }
 
 

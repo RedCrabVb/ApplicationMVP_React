@@ -1,5 +1,5 @@
 import React from 'react'
-import {TextInput, View, StyleSheet, TouchableOpacity} from 'react-native'
+import {TextInput, View, StyleSheet} from 'react-native'
 
 export const CustomInput = ({value,
                                 setValue,

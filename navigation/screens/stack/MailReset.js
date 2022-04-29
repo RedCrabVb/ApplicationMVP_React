@@ -1,9 +1,9 @@
-import * as React from 'react';
-import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
+import * as React from 'react'
+import {View, Text, Alert} from 'react-native'
 import {styles} from "../../../src/css/css"
-import {CustomInput} from "../../../src/component/CustomInput";
-import {CustomButton} from "../../../src/component/CutomButton";
-import {useState} from "react";
+import {CustomInput} from "../../../src/component/CustomInput"
+import {CustomButton} from "../../../src/component/CutomButton"
+import {useState} from "react"
 
 
 export default function MailReset(props) {
@@ -11,9 +11,9 @@ export default function MailReset(props) {
 
     return (
         <View style={styles.container}>
-            <CustomInput value={mail} setValue={setMail} placeholder="Ваша почата"></CustomInput>
+            <CustomInput value={mail} setValue={setMail} placeholder="Ваша почата"/>
 
-            <CustomButton text="Востоновить"></CustomButton>
+            <CustomButton onPress={() => Alert.alert("Функция временно не доступна")} text="Востоновить"/>
         </View>
     );
 }

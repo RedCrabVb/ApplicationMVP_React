@@ -1,13 +1,12 @@
-import * as React from 'react';
-import {View, Button, Alert, AsyncStorage} from 'react-native';
+import * as React from 'react'
+import {View, Button, Alert, AsyncStorage} from 'react-native'
 import {styles} from "../../../src/css/css"
-import {CustomInput} from "../../../src/component/CustomInput";
-import {useState} from "react";
-import {CustomButton} from "../../../src/component/CutomButton";
-import {USER} from "../../../src/utils/Storage";
-import {authorization} from "../../../src/utils/Api";
-import {settingsName} from "../../MainContainer";
-
+import {CustomInput} from "../../../src/component/CustomInput"
+import {useState} from "react"
+import {CustomButton} from "../../../src/component/CutomButton"
+import {USER} from "../../../src/utils/Storage"
+import {authorization} from "../../../src/utils/Api"
+import {settingsName, gameName, homeName} from '../../../src/utils/ScreenNames'
 
 export default function LogIn(props) {
     const [mail, setMail] = useState("")
@@ -27,12 +26,12 @@ export default function LogIn(props) {
                 fetch(apiAut, requestOptions)
                     .then((response) => response.json())
                     .then((data) => {
-                        console.log(data);
+                        console.log(data)
                         if ('error' in data) {
                             Alert.alert("Ошибка", "Ошибка при регистрации, попробуте:\n1) изменить данные \n2) сбросить кэш \n3) подключиться позже \n4) обратиться к администратору ")
                         } else {
-                            AsyncStorage.setItem(USER, JSON.stringify(data));
-                            props.navigation.popToTop(settingsName);
+                            AsyncStorage.setItem(USER, JSON.stringify(data))
+                            props.navigation.popToTop(settingsName)
                         }
                     })
                     .catch((error) => Alert.alert(error))

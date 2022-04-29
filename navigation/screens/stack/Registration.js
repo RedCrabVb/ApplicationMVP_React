@@ -1,12 +1,13 @@
-import * as React from 'react';
-import {View, Text, TextInput, Button, Alert, AsyncStorage} from 'react-native';
+import * as React from 'react'
+import {View, Text, Alert} from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import {styles} from "../../../src/css/css"
-import {CustomInput} from "../../../src/component/CustomInput";
-import {CustomButton} from "../../../src/component/CutomButton";
-import {useState} from "react";
-import {setPersonData} from "../../../src/utils/Api";
-import {USER} from "../../../src/utils/Storage";
-import {settingsName} from "../../MainContainer";
+import {CustomInput} from "../../../src/component/CustomInput"
+import {CustomButton} from "../../../src/component/CutomButton"
+import {useState} from "react"
+import {setPersonData} from "../../../src/utils/Api"
+import {USER} from "../../../src/utils/Storage"
+import {settingsName, gameName, homeName} from '../../../src/utils/ScreenNames'
 
 export default function Registration(props) {
 
@@ -36,7 +37,7 @@ export default function Registration(props) {
                         AsyncStorage.setItem(USER, JSON.stringify(data))
                     })
                     .catch((error) => alert(error))
-                    .finally(() => props.navigation.popToTop(settingsName));
+                    .finally(() => props.navigation.popToTop(settingsName))
             });
         }
     }

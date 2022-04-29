@@ -11,8 +11,5 @@ export const setPersonData = `${server}setPersonData`;
 export const authorization = `${server}authorization`;
 export const getStatusToken = `${server}getStatusToken`;
 
-// private static final String apiPersonData = "api/setPersonData";
 // private static final String apiStatusToken = "api/getStatusToken";
 // private static final String apiResetPassword = "api/resetPassword/email";
-// private static final String apiAuthorization = "api/authorization";
-// private static final String apiPersonDataGet = "api/personData";

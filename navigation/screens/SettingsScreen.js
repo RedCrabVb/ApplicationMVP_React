@@ -1,28 +1,41 @@
-import * as React from 'react';
-import {View, Text, Button, AsyncStorage, StyleSheet} from 'react-native';
+import * as React from 'react'
+import {View, Text, BackHandler} from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import {styles} from "../../src/css/css"
 
-import {CustomButton} from "../../src/component/CutomButton";
-import {useEffect, useState} from "react";
-import {USER} from "../../src/utils/Storage";
+import {CustomButton} from "../../src/component/CutomButton"
+import {useEffect, useState} from "react"
+import {USER} from "../../src/utils/Storage"
+import {
+    homeName,
+    logInName,
+    registrationName,
+} from '../../src/utils/ScreenNames'
 
 export default function SettingsScreen({navigation}) {
-    const [login, setLogin] = useState("");
-    const [mail2, setMail2] = useState("");
-
+    const [login, setLogin] = useState("")
+    const [mail2, setMail2] = useState("")
 
     React.useEffect(() => {
             const unsubscribe = navigation.addListener('focus', () => {
                 AsyncStorage.getItem(USER).then(data => {
                     if (data != null) {
-                        const user = (JSON.parse(data));
-                        setLogin(user.username);
-                        setMail2(user.email);
+                        const user = (JSON.parse(data))
+                        if (user.username != "") {
+                            setLogin(user.username);
+                            setMail2(user.email);
+                        } else {
+                            setLogin("Нет данных")
+                            setMail2("Нет данных")
+                        }
+                    } else {
+                        setLogin("Нет данных")
+                        setMail2("Нет данных")
                     }
                 });
-                console.log("userEffect")
+                console.log("userEffect SettingsScreen")
             });
-            return unsubscribe;
+            return unsubscribe
         }
     );
 
@@ -30,14 +43,15 @@ export default function SettingsScreen({navigation}) {
         <View style={styles.container}>
             <Text style={styles.textBig}>Логин: {login}</Text>
             <Text style={styles.textBig}>Почта: {mail2}</Text>
-            <View style={{paddingBottom: '50%'}}></View>
-            <CustomButton text="Войти" onPress={() => navigation.navigate("LogIn")}></CustomButton>
-            <CustomButton text="Регистрация" onPress={() => navigation.navigate("Registration")}></CustomButton>
+            <View style={{paddingBottom: '50%'}}/>
+            <CustomButton text="Войти" onPress={() => navigation.navigate(logInName)}/>
+            <CustomButton text="Регистрация" onPress={() => navigation.navigate(registrationName)}/>
             <CustomButton text="Сбросить данные" onPress={() => {
-                console.log("clear data");
-                AsyncStorage.clear()
-            }}></CustomButton>
-            <Text style={{paddingTop: '30%'}}>Верисия: 2.5</Text>
+                console.log("clear data")
+                AsyncStorage.clear().then(d => console.log(d));
+                navigation.navigate(homeName);
+            }}/>
+            <Text style={{paddingTop: '30%'}}>Верисия: 2.5.1</Text>
         </View>
     );
 }
