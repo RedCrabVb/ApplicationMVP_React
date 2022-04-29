@@ -45,7 +45,7 @@ export default function HomeScreen({ navigation }) {
 
 
     return (
-        <View>
+        <View style={styles.containerHome}>
             {
                 authorized && user != null ? (
                     <View>

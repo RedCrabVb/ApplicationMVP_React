@@ -3,6 +3,7 @@ import {useNavigation} from '@react-navigation/core'
 import React, {useState, useEffect} from "react";
 import {testCurrent} from "../../../src/utils/Api";
 import {BarCodeScanner} from "expo-barcode-scanner";
+import {CustomButton} from "../../../src/component/CutomButton";
 
 
 
@@ -90,7 +91,7 @@ export const CurrentTestScreen = (params) => {
     }
 
     return (
-        <View>
+        <View style={styles.container}>
 
             {
                 isLoading ? (
@@ -106,7 +107,7 @@ export const CurrentTestScreen = (params) => {
                 )
             }
 
-            <View style={styles.container}>
+            <View >
 
                 <View style={styles.barcodebox}>
                     <BarCodeScanner
@@ -118,7 +119,7 @@ export const CurrentTestScreen = (params) => {
                 {scanned && <Button title={'Scan again?'} onPress={() => setScanned(false)} color='tomato' />}
             </View>
 
-            <Button onPress={pressHandler} title="Отправить"></Button>
+            <CustomButton onPress={pressHandler} text="Отправить"></CustomButton>
 
         </View>
     );
@@ -129,8 +130,10 @@ const styles = StyleSheet.create({
      paddingHorizontal: 50,
     },
     container: {
-        backgroundColor: '#fff',
+        flex: 1,
         alignItems: 'center',
+        justifyContent: 'center',
+        padding: 30
     },
     maintext: {
         fontSize: 16,

@@ -4,6 +4,7 @@ import homeName from "../MainContainer";
 import {testAll} from "../../src/utils/Api";
 import {Test} from "../../src/component/Test";
 import {useState} from "react";
+import {styles} from "../../src/css/css"
 
 export default function GameScreen({ navigation }) {
     const [tests, setTests] = useState([])
@@ -16,7 +17,7 @@ export default function GameScreen({ navigation }) {
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text
-                style={{ fontSize: 26, fontWeight: 'bold' }}>Веберите тест</Text>
+                style={styles.textBig}>Веберите тест</Text>
             <ScrollView>
                 {tests.map(test => <Test test={test} key={test.idTest} navigation={navigation}></Test>)}
             </ScrollView>
