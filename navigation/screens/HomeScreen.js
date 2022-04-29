@@ -20,9 +20,7 @@ export default function HomeScreen({ navigation }) {
                 .then(data => setNewsLink(data.News))
 
             AsyncStorage.getItem(USER).then(data => {
-                setUser(data);
-
-                if (user == null) {
+                if (data == null) {
                     const requestOptions = {
                         method: 'POST',
                         headers: {'Content-Type': 'application/json'}
@@ -30,14 +28,15 @@ export default function HomeScreen({ navigation }) {
                     fetch(registration, requestOptions)
                         .then(response => response.json())
                         .then(data => {
-                            console.log(data);
-                            AsyncStorage.setItem(USER, data);
+                            console.log("fetch: " + data);
+                            AsyncStorage.setItem(USER, JSON.stringify(data));
                             return setUser(data);
                         })
                         .then(f => isAuthorized(true))
                 } else {
+                    console.log("get store : " + data)
+                    setUser(JSON.parse(data));
                     isAuthorized(true);
-                    setUser(data);
                 }
             });
         }

@@ -7,6 +7,8 @@ import {styles} from "../../../src/css/css"
 
 export default function ResultTestScreen(props) {
     console.log(props)
+    //                        String.format("token=%s&time=%s&idTest=%s&countRightAnswer=%s",
+    //                                 tokenConnection, time, idTest, countWrongAnswer)), GET
     return (
         <View style={styles.container}>
             <Text

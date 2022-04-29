@@ -15,7 +15,7 @@ Setap
 5. scan qr code+
 6. save test
 ----
-1. Set user data
+1. Set user data +
 2. Login in account
 3. Save result test (time, count wrong answer, idTest)
 4. Check right answer scan

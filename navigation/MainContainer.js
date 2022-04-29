@@ -18,7 +18,7 @@ import ResultTestScreen from "./screens/stack/ResultTestScreen";
 //Screen names
 const homeName = "Главная";
 const gameName = "Игра";
-const settingsName = "Настройки";
+export const settingsName = "Настройки";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
