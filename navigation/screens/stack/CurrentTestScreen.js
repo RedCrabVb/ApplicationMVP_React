@@ -15,6 +15,7 @@ export const CurrentTestScreen = (params) => {
 
     const [countWrongAnswer, setCountWrongAnswer] = useState(0)
     const [currentQuestion, setCurrentQuestion] = useState(0)
+    const [startTime, setStartTime] = useState(0)
 
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
@@ -30,9 +31,14 @@ export const CurrentTestScreen = (params) => {
 
     const pressHandler = () => {
         if (currentQuestion === answerList.length - 1) {
-            params.navigation.navigate("Result", {countWrongAnswer: countWrongAnswer, test: test})
+            params.navigation.navigate("Result", {countWrongAnswer: countWrongAnswer, test: test, startTime: startTime, endTime: Date.now()});
         } else {
-            incrementQuestion()
+            incrementQuestion();
+            if (text == answerList[currentQuestion].hash) {
+                incrementQuestion();
+            } else {
+                incrementCountWrongAnswer();
+            }
         }
     }
 
@@ -44,8 +50,9 @@ export const CurrentTestScreen = (params) => {
                 .then((response) => response.json())
                 .then((data) => {
                     console.log("load test: " + data.idTest);
-                    setAnswerList(data.answerList)
-                    setTest(data)
+                    setStartTime(Date.now());
+                    setAnswerList(data.answerList);
+                    setTest(data);
                 })
                 .catch((error) => alert(error))
                 .finally(() => setLoading(false));
