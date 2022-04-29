@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { StyleSheet, View, ActivityIndicator} from 'react-native';
+import {StyleSheet, View, Text, ActivityIndicator} from 'react-native';
+import {WebView} from 'react-native-webview';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {USER} from "../../src/utils/Storage"
 import {useEffect, useState} from "react";
@@ -8,10 +9,10 @@ import QRCode from 'react-qr-code';
 import {} from 'react-native-svg';
 
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({navigation}) {
     const [authorized, isAuthorized] = useState(false)
     const [user, setUser] = useState({})
-    const [newsLink, setNewsLink] = useState("test")
+    const [newsLink, setNewsLink] = useState("google.com")
 
 
     useEffect(() => {
@@ -20,6 +21,7 @@ export default function HomeScreen({ navigation }) {
                     fetch(newsApi)
                         .then(response => response.json())
                         .then(data => setNewsLink(data.News))
+                        .then(() => console.log(newsLink))
 
                     AsyncStorage.getItem(USER).then(data => {
                         console.log("getItem user: " + data)
@@ -61,28 +63,37 @@ export default function HomeScreen({ navigation }) {
             {
                 authorized && user != null && 'qrCode' in user ? (
                     <View>
-
-                        <QRCode value={user.qrCode} />
+                        <QRCode value={user.qrCode}/>
 
                     </View>
                 ) : (
                     <ActivityIndicator/>
                 )
             }
+
+
             <View>
-                {/*<WebView style={styles.wegPage} source={{ uri: "https://github.com/"}} onLoad={console.log("load")}  /> //bag*/}
+                {/*bag*/}
+                <Text>                                                                                     </Text>
+                <WebView
+                    source={{
+                        uri: newsLink
+                    }}
+                    style={{marginTop: 20, marginBottom: 10, padding: 0}}
+                />
             </View>
+
         </View>
     )
 }
 
 
 const styles = StyleSheet.create({
-    containerHome: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-    webPag: {
-        marginTop: 50,
-        flex: 1,
-        width: '100%',
-        height: '100%',
+    containerHome: {
+        flex: 0,
+        alignItems: 'center',
+        alignContent: 'center',
+        margin: 5,
+        padding: 0
     }
 });

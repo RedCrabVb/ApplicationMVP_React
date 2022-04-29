@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Button, ActivityIndicator} from 'react-native'
+import {StyleSheet, Text, View, Button, ScrollView, ActivityIndicator} from 'react-native'
 import React, {useState, useEffect} from "react"
 import {testCurrent} from "../../../src/utils/Api"
 import {BarCodeScanner} from "expo-barcode-scanner"
@@ -107,12 +107,15 @@ export const CurrentTestScreen = (params) => {
                     <ActivityIndicator>
                     </ActivityIndicator>
                 ) : (
-                    <View style={styles.block}>
+                    <ScrollView style={styles.block}>
                         <Text style={styles.maintext}>{currentQuestion} / {answerList.length}</Text>
-                        <Text style={styles.maintext}>Вопрос: {answerList[currentQuestion].question}</Text>
-                        <Text style={styles.maintext}>Ответ: {responseCurrent}</Text>
-                        <Text style={styles.maintext}>Комментарий: {answerList[currentQuestion].comment}</Text>
-                    </View>
+                        <Text style={styles.headerText}>Вопрос:</Text>
+                        <Text style={styles.maintext}>{answerList[currentQuestion].question}</Text>
+                        <Text style={styles.headerText}>Ответ:</Text>
+                        <Text style={styles.maintext}>{responseCurrent}</Text>
+                        <Text style={styles.headerText}>Комментарий</Text>
+                        <Text style={styles.maintext}>{answerList[currentQuestion].comment}</Text>
+                    </ScrollView>
                 )
             }
 
@@ -125,21 +128,13 @@ export const CurrentTestScreen = (params) => {
             {
                 !error ? (
                     <View>
-                        {/*<CircularProgress*/}
-                        {/*    radius={100}*/}
-                        {/*    value={value}*/}
-                        {/*    textColor='#222'*/}
-                        {/*    fontSize={20}*/}
-                        {/*    valueSuffix={'%'}*/}
-                        {/*    activeStrokeColor={'tomato'}*/}
-                        {/*    inActiveStrokeOpacity={0.2}*/}
-                        {/*    duration={4000}*/}
-                        {/*/>*/}
+
+
 
                     </View>
                 ) : (<Text>Ошибка</Text>)
             }
-            <Text>{text}</Text>
+
 
             <CustomButton onPress={pressHandler} text="Отправить"></CustomButton>
 
@@ -149,25 +144,28 @@ export const CurrentTestScreen = (params) => {
 
 const styles = StyleSheet.create({
     block: {
-        paddingHorizontal: 50,
+        paddingHorizontal: 30,
     },
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 30
+        paddingHorizontal: 30,
+        paddingVertical: 30
     },
     maintext: {
         fontSize: 14,
-        margin: 10,
+        margin: 4,
+    },
+    headerText: {
+        fontSize: 16,
+        fontWeight: 'bold'
     },
     barcodebox: {
         alignItems: 'center',
         justifyContent: 'center',
-        height: 300,
-        width: 300,
+        height: '40%',
+        width: '100%',
         overflow: 'hidden',
         borderRadius: 30,
-        backgroundColor: 'tomato'
+        backgroundColor: '#39aae8'
     }
 });

@@ -9,8 +9,8 @@ export const Test = ({test, navigation}) => {
             activeOpacity={0.5}
             onPress={() => {console.log("idTest" + test.idTest); navigation.navigate(currentTestName, {idTest: test.idTest})}}>
             <View style={styles.test}>
-                <Text style={styles.textTest}>{test.test}</Text>
-                <Text style={styles.textTest}>{test.description}</Text>
+                <Text>{test.test}</Text>
+                <Text>{test.description}</Text>
             </View>
         </TouchableOpacity>
     )
@@ -19,13 +19,10 @@ export const Test = ({test, navigation}) => {
 const styles = StyleSheet.create({
     test: {
         alignItems: 'center',
-        padding: 15,
-        borderWidth: 15,
-        borderColor: '#eee',
-        borderRadius: 5
-    },
-    textTest: {
-        flexDirection: 'row',
-        alignItems: 'center',
+        padding: 20,
+        borderWidth: 2,
+        borderColor: '#2f96cd',
+        borderRadius: 5,
+        paddingHorizontal: '20%'
     }
 })

@@ -1,5 +1,3 @@
-import {CurrentTestScreen} from "../../navigation/screens/stack/CurrentTestScreen";
-
 export const homeName = "Главная"
 export const gameName = "Игра"
 export const settingsName = "Настройки"
