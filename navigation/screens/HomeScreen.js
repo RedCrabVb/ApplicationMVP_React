@@ -13,40 +13,49 @@ export default function HomeScreen({ navigation }) {
     const [newsLink, setNewsLink] = useState("test");
 
 
-    useEffect(() => {
-        if (!authorized) {
-            fetch(newsApi)
-                .then(response => response.json())
-                .then(data => setNewsLink(data.News))
-
-            AsyncStorage.getItem(USER).then(data => {
-                if (data == null) {
-                    const requestOptions = {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'}
-                    };
-                    fetch(registration, requestOptions)
+    React.useEffect(() => {
+            const unsubscribe = navigation.addListener('focus', () => {
+                if (!authorized) {
+                    fetch(newsApi)
                         .then(response => response.json())
-                        .then(data => {
-                            console.log("fetch: " + data);
-                            AsyncStorage.setItem(USER, JSON.stringify(data));
-                            return setUser(data);
-                        })
-                        .then(f => isAuthorized(true))
+                        .then(data => setNewsLink(data.News));
+
+                    AsyncStorage.getItem(USER).then(data => {
+                        if (data == null || !('token' in user)) {
+                            const requestOptions = {
+                                method: 'POST',
+                                headers: {'Content-Type': 'application/json'}
+                            };
+                            fetch(registration, requestOptions)
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log("fetch: " + data);
+                                    AsyncStorage.setItem(USER, JSON.stringify(data));
+                                    return setUser(data);
+                                })
+                                .then(f => isAuthorized(true));
+                        } else {
+                            console.log("get store : " + data);
+                            setUser(JSON.parse(data));
+                            isAuthorized(true);
+                        }
+                    });
                 } else {
-                    console.log("get store : " + data)
-                    setUser(JSON.parse(data));
-                    isAuthorized(true);
+                    AsyncStorage.getItem(USER).then(data => {
+                        if (data != null || ('token' in data)) {
+                            setUser(JSON.parse(data));
+                        }
+                    });
                 }
             });
+            return unsubscribe;
         }
-    });
-
+    );
 
     return (
         <View style={styles.containerHome}>
             {
-                authorized && user != null ? (
+                authorized && user != null && 'qrCode' in user ? (
                     <View>
 
                         <QRCode value={user.qrCode} />
