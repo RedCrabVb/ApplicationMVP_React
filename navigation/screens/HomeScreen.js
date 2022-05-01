@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {StyleSheet, View, Text, ActivityIndicator} from 'react-native';
+import {Button, StyleSheet, View, Text, ActivityIndicator} from 'react-native';
 import {WebView} from 'react-native-webview';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {USER} from "../../src/utils/Storage"
@@ -12,7 +12,7 @@ import {} from 'react-native-svg';
 export default function HomeScreen({navigation}) {
     const [authorized, isAuthorized] = useState(false)
     const [user, setUser] = useState({})
-    const [newsLink, setNewsLink] = useState("google.com")
+    const [newsLink, setNewsLink] = useState("")
 
 
     useEffect(() => {
@@ -50,6 +50,8 @@ export default function HomeScreen({navigation}) {
                         if (data != null || ('token' in data)) {
                             isAuthorized(true)
                             setUser(JSON.parse(data))
+                        } else {
+                            isAuthorized(false)
                         }
                     });
                 }
@@ -63,25 +65,24 @@ export default function HomeScreen({navigation}) {
             {
                 authorized && user != null && 'qrCode' in user ? (
                     <View>
-                        <QRCode value={user.qrCode}/>
 
+                        <View style={{margin: 10, height: '55%'}}>
+                            <WebView
+                                source={{
+                                    uri: newsLink
+                                }}
+                            />
+                        </View>
+
+                        <View style={{paddingTop: 30, paddingHorizontal: '17%'}}>
+                            <QRCode value={user.qrCode}/>
+                        </View>
                     </View>
                 ) : (
                     <ActivityIndicator/>
                 )
             }
 
-
-            <View>
-                {/*bag*/}
-                <Text>                                                                                     </Text>
-                <WebView
-                    source={{
-                        uri: newsLink
-                    }}
-                    style={{marginTop: 20, marginBottom: 10, padding: 0}}
-                />
-            </View>
 
         </View>
     )
@@ -90,10 +91,6 @@ export default function HomeScreen({navigation}) {
 
 const styles = StyleSheet.create({
     containerHome: {
-        flex: 0,
-        alignItems: 'center',
-        alignContent: 'center',
-        margin: 5,
-        padding: 0
+        margin: 5
     }
 });

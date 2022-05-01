@@ -34,7 +34,11 @@ export default function Registration(props) {
                     .then((response) => response.json())
                     .then((data) => {
                         console.log(data);
-                        AsyncStorage.setItem(USER, JSON.stringify(data))
+                        if (!('error' in data)) {
+                            AsyncStorage.setItem(USER, JSON.stringify(data))
+                        } else {
+                            Alert.alert("Ошибки при подключение к серверу " + data.status )
+                        }
                     })
                     .catch((error) => alert(error))
                     .finally(() => props.navigation.popToTop(settingsName))

@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Button, ScrollView, ActivityIndicator} from 'react-native'
+import {StyleSheet, Text, View, Button, ScrollView, ActivityIndicator, Alert} from 'react-native'
 import React, {useState, useEffect} from "react"
 import {testCurrent} from "../../../src/utils/Api"
 import {BarCodeScanner} from "expo-barcode-scanner"
@@ -23,7 +23,8 @@ export const CurrentTestScreen = (params) => {
     const [statusBar, setStatusBar] = useState(0)
 
     const [hasPermission, setHasPermission] = useState(null);
-    const [text, setText] = useState('Not yet scanned')
+    const [text, setText] = useState('Нет данных')
+    const [qrScanEnable, setQRScanEnable] = useState(true)
 
     const incrementQuestion = () => {
         setCurrentQuestion(currentQuestion + 1)
@@ -66,14 +67,18 @@ export const CurrentTestScreen = (params) => {
             fetch(apiTest)
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log("load test: " + data.idTest);
-                    setStartTime(Date.now());
-                    setAnswerList(data.answerList);
+                    if (!('error' in data)) {
+                        console.log("load test: " + data.idTest);
+                        setStartTime(Date.now());
+                        setAnswerList(data.answerList);
 
-                    setTest(data);
+                        setTest(data);
+                        setLoading(false)
+                    } else {
+                        Alert.alert("Ошибки при загрзуки теста, код: " + data.status)
+                    }
                 })
                 .catch((error) => alert(error))
-                .finally(() => setLoading(false));
         }
     })
 
@@ -90,21 +95,28 @@ export const CurrentTestScreen = (params) => {
 
     const handleBarCodeScanned = (x) => {
         setText(x.data)
-        setResponseCurrent(answerList.find(a => a.hash == x.data).response)
-        console.log('Type: ' + x.type + '\nData: ' + x.data)
-    };
+        setQRScanEnable(false)
+        if (answerList.map(a => a.hash).includes(x.data)) {
+            setResponseCurrent(answerList.find(a => a.hash == x.data).response)
+            console.log('Type: ' + x.type + '\nData: ' + x.data)
+        } else {
+            Alert.alert("Отсканирован qr код, которые не относится к тесту")
+        }
+        setTimeout(() => setQRScanEnable(true), 2300)
+    }
 
     if (hasPermission === null) {
         return (
             <View style={styles.container}>
-                <Text>Requesting for camera permission</Text>
+                <ActivityIndicator size="large" color="#ce1c1c" />
+                <Text>Запрашиваю разрешение камеры</Text>
             </View>)
     }
     if (hasPermission === false) {
         return (
             <View style={styles.container}>
-                <Text style={{margin: 10}}>No access to camera</Text>
-                <Button title={'Allow Camera'} onPress={() => askForCameraPermission()}/>
+                <Text style={{margin: 10}}>Нет доступа к камере</Text>
+                <CustomButton text={'Разрешить доступ'} onPress={askForCameraPermission}/>
             </View>)
     }
 
@@ -133,15 +145,7 @@ export const CurrentTestScreen = (params) => {
                     <View></View>
                 ) : (<View style={{        alignItems: 'center',
                     justifyContent: 'center'}} >
-                    <AnimatedCircularProgress
-                        size={60}
-                        width={15}
-                        fill={statusBar}
-                        tintColor='#00e0ff'
-                        onAnimationComplete={() => {
-                            setStatusBar(0)
-                        }}
-                        backgroundColor='#c40a0a' />
+                    <ActivityIndicator size="large" color="#c40a0a" />
                     <Text style={{color: '#c40a0a'}}>Ошибка</Text>
                 </View>)
             }
@@ -149,7 +153,7 @@ export const CurrentTestScreen = (params) => {
 
             <View style={styles.barcodebox}>
                 <BarCodeScanner
-                    onBarCodeScanned={handleBarCodeScanned}
+                    onBarCodeScanned={qrScanEnable ? handleBarCodeScanned : undefined}
                     style={{height: 400, width: 400}}/>
             </View>
 

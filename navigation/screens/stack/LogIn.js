@@ -6,7 +6,7 @@ import {useState} from "react"
 import {CustomButton} from "../../../src/component/CutomButton"
 import {USER} from "../../../src/utils/Storage"
 import {authorization} from "../../../src/utils/Api"
-import {settingsName, gameName, homeName} from '../../../src/utils/ScreenNames'
+import {settingsName, gameName, homeName, mailResetName} from '../../../src/utils/ScreenNames'
 
 export default function LogIn(props) {
     const [mail, setMail] = useState("")
@@ -45,7 +45,7 @@ export default function LogIn(props) {
             <CustomInput value={mail} setValue={setMail} placeholder="Ваш логин"></CustomInput>
             <CustomInput value={password} setValue={setPassword} secureTextEntry={true} placeholder="Ваш пароль" ></CustomInput>
             <CustomButton onPress={handlerPressAut} text="Войти"></CustomButton>
-            <CustomButton text="Востоновить пароль" onPress={() => props.navigation.navigate("MailReset")} style={{bgColor: "red"}}></CustomButton>
+            <CustomButton text="Востоновить пароль" onPress={() => props.navigation.navigate(mailResetName)} style={{bgColor: "red"}}></CustomButton>
 
         </View>
     );
