@@ -51,7 +51,7 @@ export default function SettingsScreen({navigation}) {
                 AsyncStorage.clear().then(d => console.log(d));
                 navigation.navigate(homeName);
             }}/>
-            <Text style={{paddingTop: '30%'}}>Верисия: 2.5.4</Text>
+            <Text style={{paddingTop: '50%', textAlign: 'center'}}>Верисия: 2.5.4</Text>
         </View>
     );
 }

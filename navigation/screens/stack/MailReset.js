@@ -11,9 +11,17 @@ export default function MailReset(props) {
 
     return (
         <View style={styles.container}>
-            <CustomInput value={mail} setValue={setMail} placeholder="Ваша почата"/>
+            <CustomInput
+                label={'Почта'}
+                value={mail}
+                onChangeText={setMail}
+                iconName={'lock-closed'}
+                placeholder="Ваша почта"/>
+
 
             <CustomButton onPress={() => Alert.alert("Функция временно не доступна")} text="Востоновить"/>
+
+
         </View>
     );
 }

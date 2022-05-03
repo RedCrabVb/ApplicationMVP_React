@@ -17,7 +17,7 @@ export default function LogIn(props) {
         Keyboard.dismiss()
         let isValid = true
         if (mail.length < 4) {
-            handleError('Логин должен быть длиннее 4 символов', 'email')
+            handleError('Почта должна быть длиннее 4 символов', 'email')
             isValid = false
         } else {
             handleError(null, 'email')
@@ -66,25 +66,28 @@ export default function LogIn(props) {
     return (
         <View style={styles.container}>
             <CustomInput
+                label={'Почта'}
                 value={mail}
                 onChangeText={setMail}
-                iconName={'people'}
+                iconName={'mail'}
                 error={errors.email}
-                placeholder="Ваш логин"/>
+                placeholder="Ваш почта"/>
             <CustomInput
+                label={'Пароль'}
                 value={password}
                 onChangeText={setPassword}
                 iconName={'lock-closed'}
                 password={true}
                 error={errors.password}
                 placeholder="Ваш пароль"/>
-            <CustomButton
-                onPress={validate}
-                text="Войти"/>
-            <CustomButton
-                text="Востоновить пароль"
-                onPress={() => props.navigation.navigate(mailResetName)} style={{bgColor: "red"}}/>
-
+            <View style={{paddingTop: 20}}>
+                <CustomButton
+                    onPress={validate}
+                    text="Войти"/>
+                <CustomButton
+                    text="Востоновить пароль"
+                    onPress={() => props.navigation.navigate(mailResetName)} style={{bgColor: "red"}}/>
+            </View>
         </View>
     )
 }
