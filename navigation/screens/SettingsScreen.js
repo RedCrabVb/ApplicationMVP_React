@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {View, Text, BackHandler} from 'react-native'
+import {View, Text, Vibration} from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import {styles} from "../../src/css/css"
 

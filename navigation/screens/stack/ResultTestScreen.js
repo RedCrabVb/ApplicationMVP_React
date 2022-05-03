@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View, Text, ScrollView, Button, StyleSheet, AsyncStorage, Alert} from 'react-native';
+import {View, Text, Image, Button, StyleSheet, AsyncStorage, Alert} from 'react-native';
 import {CustomButton} from "../../../src/component/CutomButton";
 import {styles} from "../../../src/css/css"
 import {saveResultTest} from "../../../src/utils/Api";
@@ -55,9 +55,10 @@ export default function ResultTestScreen(props) {
         <View style={styles.container}>
             <Text
                 style={{ fontSize: 26, fontWeight: 'bold' }}>Результаты теста</Text>
-            <Text>Количество неверных ответво {props.route.params.countWrongAnswer}</Text>
-            <Text>Время прохождения {millisToMinutesAndSeconds(params.endTime - params.startTime)}</Text>
-            <Text>Название теста: {params.test.test}</Text>
+            <Image source={require('../../../src/img/final_test.png')} />
+            <Text style={{fontSize: 20}}>Количество неверных ответов: {props.route.params.countWrongAnswer}</Text>
+            <Text style={{fontSize: 20}}>Время прохождения: {millisToMinutesAndSeconds(params.endTime - params.startTime)}</Text>
+            <Text style={{fontSize: 20}}>Название теста: {params.test.test}</Text>
             <CustomButton text={sendResult ? "В главное меню" : "Отрпавить результаты"}
                           onPress={sendResult ? () => props.navigation.popToTop("Tabs") : sendResultFetch}></CustomButton>
         </View>

@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Button, ScrollView, ActivityIndicator, Alert} from 'react-native'
+import {StyleSheet, Text, View, Vibration, ScrollView, ActivityIndicator, Alert} from 'react-native'
 import React, {useState, useEffect} from "react"
 import {testCurrent} from "../../../src/utils/Api"
 import {BarCodeScanner} from "expo-barcode-scanner"
@@ -39,6 +39,7 @@ export const CurrentTestScreen = (params) => {
             clearInterval(timer)
             setError(false)
         }, 1000 * Math.min(countWrongAnswer, 5))
+        Vibration.vibrate()
     }
 
     const pressHandler = () => {

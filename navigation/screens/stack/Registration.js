@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {View, Text, Alert} from 'react-native'
+import {View, Text, Alert, Vibration} from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import {styles} from "../../../src/css/css"
 import {CustomInput} from "../../../src/component/CustomInput"
@@ -19,8 +19,10 @@ export default function Registration(props) {
     const handlerPressReg = () => {
         if (password != password2 || password.length < 4) {
             Alert.alert("Пароли должны быть одинаковы и больше 4 символов")
+            Vibration.vibrate()
         } else if (login.length < 4 || mail.length < 4) {
             Alert.alert("Логин и почта должны быть больше 5 символов")
+            Vibration.vibrate()
         } else {
             AsyncStorage.getItem(USER).then(u => JSON.parse(u)).then(user => {
                 console.log(user)

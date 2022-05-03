@@ -7,10 +7,11 @@ export const Test = ({test, navigation}) => {
     return (
         <TouchableOpacity
             activeOpacity={0.5}
-            onPress={() => {console.log("idTest" + test.idTest); navigation.navigate(currentTestName, {idTest: test.idTest})}}>
+            onPress={() => {console.log("idTest" + test.idTest); navigation.navigate(currentTestName, {idTest: test.idTest})}}
+            style={{padding: '2%'}}>
             <View style={styles.test}>
-                <Text>{test.test}</Text>
-                <Text>{test.description}</Text>
+                <Text style={{textAlign: 'center', fontSize: 17}}>{test.test}</Text>
+                <Text style={{padding: 5, fontSize: 12}}>{test.description}</Text>
             </View>
         </TouchableOpacity>
     )
@@ -18,11 +19,9 @@ export const Test = ({test, navigation}) => {
 
 const styles = StyleSheet.create({
     test: {
-        alignItems: 'center',
-        padding: 20,
+        padding: 10,
         borderWidth: 2,
         borderColor: '#2f96cd',
-        borderRadius: 5,
-        paddingHorizontal: '20%'
+        borderRadius: 3
     }
 })

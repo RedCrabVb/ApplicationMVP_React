@@ -27,12 +27,12 @@ export default function GameScreen({navigation}) {
 
 
     return (
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <View>
             <Text
                 style={styles.textBig}>Веберите тест</Text>
-            <ScrollView>
+            <ScrollView style={{padding: '0%'}}>
                 {tests.filter(t => t.active).map(test => <Test test={test} key={test.idTest}
-                                                               navigation={navigation}></Test>)}
+                                                               navigation={navigation} ></Test>)}
             </ScrollView>
         </View>
     );
